@@ -17,3 +17,4 @@ This is a php app that you can monitor 10 url for availability. If any of the ur
 ```
 */10 * * * * wget -O /dev/null "https://your-domain.com/" > /dev/null 2>&1
 ```
+This means that the checking operation happens every 10 minutes.
