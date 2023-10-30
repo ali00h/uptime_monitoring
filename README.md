@@ -13,4 +13,7 @@ This is a php app that you can monitor 10 url for availability. If any of the ur
 | `URL1` | Your url for monitoring |
 | `NOTIFY_WAIT_NEXT_SEND_MINUTES` | If any of urls response other than 200, system wait this minutes for next check. |    
 
-3- Set Root Url of app to `cron job`
+3- Set Root Url of app to `cron job`. For example:
+```
+*/10 * * * * wget -O /dev/null "https://your-domain.com/" > /dev/null 2>&1
+```
