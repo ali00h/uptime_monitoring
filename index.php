@@ -11,6 +11,7 @@ class UptimeMonitoring{
         $this->env = array_merge($this->env, $_ENV);
         $this->env = array_merge($this->env, parse_ini_file('.env'));
         date_default_timezone_set($this->env['TIME_ZONE']);
+        $this->makeDir($this->cache_dir);
     }
 
     public function run() {
@@ -110,5 +111,10 @@ class UptimeMonitoring{
             $isValid = true;
         }   
         return $isValid;     
+    }
+
+    private function makeDir($path)
+    {
+        return is_dir($path) || mkdir($path);
     }
 }
