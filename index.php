@@ -4,7 +4,7 @@ $uptimeMonitoring->run();
 
 class UptimeMonitoring{
     private $env;
-    private $cache_dir = "cache\\";
+    private $cache_dir = "cache";
 
     function __construct() {
         $this->env = array();
@@ -94,13 +94,13 @@ class UptimeMonitoring{
     }
 
     private function saveCache($URL,$response,$code){
-        $filename = $this->cache_dir . md5($URL) . '.htm';
+        $filename = $this->cache_dir . '/' . md5($URL) . '.htm';
         file_put_contents($filename, '<br />-------------------<br />' . date('Y-m-d H:i:s') . '<br />-------------------<br />ResponseCode: ' . $code);
     }
 
     private function URLValidForCheck($URL){
         $isValid = false;
-        $filename = $this->cache_dir . md5($URL) . '.htm';
+        $filename = $this->cache_dir . '/' . md5($URL) . '.htm';
         if (file_exists($filename)) {
             if(filemtime($filename) < (time() - (60 * $this->env['NOTIFY_WAIT_NEXT_SEND_MINUTES']))){
                 $isValid = true;
