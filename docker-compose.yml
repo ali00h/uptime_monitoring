@@ -1,6 +1,6 @@
 version: "3"
 services:
-  cronjob:
+  uptimemonitoring:
     build: .
     image: "ali00h/uptime_monitoring"
     container_name: uptime-monitoring
