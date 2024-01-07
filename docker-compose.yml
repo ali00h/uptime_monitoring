@@ -1,0 +1,18 @@
+version: "3"
+services:
+  cronjob:
+    build: .
+    image: "ali00h/uptime_monitoring"
+    container_name: uptime-monitoring
+    restart: always
+    ports:
+      - "8079:80"
+    environment:
+      - TZ=Asia/Tehran
+      - LOG_MAX_LINE_COUNT=1000
+      - LOGIN_USERNAME=admin
+      - LOGIN_PASSWORD=admin
+      - BALE_TOKEN=4359876349758:JUJDF43587493HSDFHS834957
+      - BALE_CHAT_ID=5252885959
+      - URL1=https://alihashemi.ir/pp/counter.php?p=2
+      - NOTIFY_WAIT_NEXT_SEND_MINUTES=120

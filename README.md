@@ -7,7 +7,7 @@ This is a php app that you can monitor 10 url for availability. If any of the ur
 2- Fill `.env` with valid data:
 | ENV | Description |
 | --- | --- |
-| `TIME_ZONE` | Your time zone |
+| `TZ` | Your time zone |
 | `BALE_TOKEN` | Your bale token |
 | `BALE_CHAT_ID` | Your bale chat id |
 | `URL1` | Your url for monitoring. you can define 10 different urls. for example URL2,URL3,... if each of urls was empty string, app will ignore it. |

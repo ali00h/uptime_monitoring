@@ -9,8 +9,10 @@ class UptimeMonitoring{
     function __construct() {
         $this->env = array();
         $this->env = array_merge($this->env, $_ENV);
-        $this->env = array_merge($this->env, parse_ini_file('.env'));
-        date_default_timezone_set($this->env['TIME_ZONE']);
+        if(file_exists('.env'))
+            $this->env = array_merge($this->env, parse_ini_file('.env'));
+        $this->env["BALE_CHAT_ID"] = explode(",",$this->env["BALE_CHAT_ID"]);
+        date_default_timezone_set($this->env['TZ']);
         $this->makeDir($this->cache_dir);
     }
 
@@ -71,26 +73,28 @@ class UptimeMonitoring{
 
     private function sendBaleMsg($msg){
         $msg_bale = $msg;
-        $curl_bale = curl_init();
-        //$this->pLog($msg_bale);
-        curl_setopt_array($curl_bale, array(
-          CURLOPT_URL => 'https://tapi.bale.ai/bot' . $this->env['BALE_TOKEN'] . '/sendMessage',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"chat_id": ' . $this->env['BALE_CHAT_ID'] . ', "text": "' . $msg_bale . '"}',
-          CURLOPT_HTTPHEADER => array(
-            'Content-Type: text/plain'
-          ),
-        ));
-        
-        $response_bale = curl_exec($curl_bale);
-        //$this->pLog($response_bale);
-        curl_close($curl_bale);                
+        foreach($this->env['BALE_CHAT_ID'] as $bale_chat_id){
+            $curl_bale = curl_init();
+            //$this->pLog($msg_bale);
+            curl_setopt_array($curl_bale, array(
+            CURLOPT_URL => 'https://tapi.bale.ai/bot' . $this->env['BALE_TOKEN'] . '/sendMessage',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{"chat_id": ' . $bale_chat_id . ', "text": "' . $msg_bale . '"}',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: text/plain'
+            ),
+            ));
+            
+            $response_bale = curl_exec($curl_bale);
+            //$this->pLog($response_bale);
+            curl_close($curl_bale);                
+        }
     }
 
     private function saveCache($URL,$response,$code){
